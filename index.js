@@ -31,5 +31,32 @@ new Vue ({
     toggle: function(todo) {
       todo.completed = !todo.completed;
     },
+  },
+  computed: {
+    allDone: {
+      get () {
+        return this.countStart === 0;
+      },
+      set (value) {
+        if (value == true) {
+          this.todos.map(todo => todo.completed = true)
+        }
+        else {
+          this.todos.map(todo => todo.completed = false)
+        }
+      }
+    },
+    countStart () {
+      return this.todos.filter(todo => !todo.completed).length;
+    },
+    doneTodo () {
+      if (this.filter === 'done') {
+        return this.todos.filter(todo => todo.completed)
+      }
+      else if (this.filter === 'todo') {
+        return this.todos.filter(todo => !todo.completed)
+      }
+      return this.todos
+    }
   }
 })
